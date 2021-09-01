@@ -51,6 +51,8 @@
 Hi, if you want to create campaigns automatically in your node backend, you're at the right place!
 This can be used for a newsletter, or has marketing campaigns to validate your leads.
 
+In our case we will take as an example a <b>marketing campaign asking users to verify their account</b> until they do.
+
 This module is here to tweak Mailjet features in order to have the process done automaticaally. You'll have:
 - a marketing campagin automatically sent every weeks
 - one template re-used for all occurence. The content will have to be updated weekly, everything else will be automatic
