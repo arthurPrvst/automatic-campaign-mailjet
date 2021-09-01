@@ -21,8 +21,8 @@
 
 <br />
 
-<div align="center"><strong>Add a payment system to our web app with Stripe</strong></div>
-<div align="center">Implement paid subscriptions and cancelations in your NestJS back</div>
+<div align="center"><strong>Automatic mailjet campaign creation</strong></div>
+<div align="center">Generate your newsletters or your marketing campaigns automatically</div>
 
 <br />
 
@@ -46,13 +46,14 @@
 
 ## Features included in the module
 
-[Full documentation HERE.](https://fast-modular-project.com/modules/mailjet-newsletters)
+[Full documentation HERE.](https://fast-modular-project.com/modules/automatic-campaign-mailjet)
 
-Hi, if you want to create a newsletter in your node backend, you're at the right place! 
+Hi, if you want to create campaigns automatically in your node backend, you're at the right place!
+This can be used for a newsletter, or has marketing campaigns to validate your leads.
 
-This module is here to tweak Mailjet feature in order to have cronned newsletter. You'll have:
-- a newsletter automatically sent every weeks
-- one template re-used for all send mailing. The content will have to be updated weekly
+This module is here to tweak Mailjet features in order to have the process done automaticaally. You'll have:
+- a marketing campagin automatically sent every weeks
+- one template re-used for all occurence. The content will have to be updated weekly, everything else will be automatic
 
 You can use this module to learn how to implement a newletter system in your app, or just to copy past it in your project to get something working directly. ¯&#92;&#95;(ツ)&#95;/¯
 
