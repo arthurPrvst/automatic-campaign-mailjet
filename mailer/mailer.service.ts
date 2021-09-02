@@ -126,9 +126,9 @@ export class MailerService {
       .post("campaigndraft", {'version': 'v3'})
       .request({
         "Locale": "fr_FR",
-        "Sender": "Inès de LifePartner",
-        "SenderName": "Inès de LifePartner",
-        "SenderEmail": "ines@life-partner.co",
+        "Sender": "Your name",
+        "SenderName": "Your name",
+        "SenderEmail": "your_company@domain.com",
         "Subject": campaignDraft.campaignSubject,
         "ContactsListID": this.contactListID, //Depends on the ENV !!!
         "SegmentationID": campaignDraft.segmentId,
@@ -173,8 +173,8 @@ export class MailerService {
     .request({
         "Recipients":[
           {
-            "Email": "parthur61@gmail.com",
-            "Name": "Arthur"
+            "Email": "your_dev_address@gmail.com",
+            "Name": "YourName"
           }
         ]
       })
