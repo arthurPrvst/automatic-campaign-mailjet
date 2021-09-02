@@ -72,6 +72,24 @@ export class MailerService {
         });
   }
 
+  async updateDefaultContactMetadatas(contactId: number, firstname: string): Promise<any> {
+    return await this.mailjet
+    .put("contactdata", {'version': 'v3'})
+    .id(contactId)
+    .request({
+        "Data":[
+          {
+            "Name": ContactProperties.FIRSTNAME,
+            "Value": firstname
+          },
+          {
+            "Name": ContactProperties.HAS_VERIFIED_ACCOUNT,
+            "Value": false
+          }
+        ]
+      })
+  }
+
   async updateContactMetadata(contactId: number, metadataName : ContactProperties, metadataValue: any) {
     if (contactId === null || contactId === 0) {
       console.warn("Wont update, contactId =", contactId);
