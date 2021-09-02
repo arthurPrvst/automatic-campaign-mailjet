@@ -1,14 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
+import { Cron } from '@nestjs/schedule';
 import { MailerService } from '../../shared/mailer/mailer.service';
-import { UsersService } from '../../api/users/users.service';
-import { MatchLogsService } from '../../api/tracking/match-logs/match-logs.service';
-import { MatchsService } from '../../api/matchs/matchs.service';
-import { UsersCompatibilitiesService } from '../../api/users-compatibilities/users-compatibilites.service';
 import { CreateCampaignDraft } from '../../shared/mailer/resources/create-campaign-draft-creation'
 import { UpdateCampaignDraft } from '../../shared/mailer/resources/update-campaign-draft-creation'
 import { CampaignTemplate } from '../../shared/mailer/resources/campaign-templates.enum'
-import { ContactProperties } from '../../shared/mailer/resources/contact-properties.enum'
 import { Segment } from '../../shared/mailer/resources/segments.enum'
 
 
@@ -18,11 +13,7 @@ import { Segment } from '../../shared/mailer/resources/segments.enum'
 @Injectable()
 export class CampaignService {
 
-    constructor(private mailService: MailerService,
-                private usersService: UsersService,
-                private matchServiceLog: MatchLogsService,
-                private matchService: MatchsService,
-                private usersCompatibilitiesService: UsersCompatibilitiesService) { }
+    constructor(private mailService: MailerService) { }
 
     async getAllCampaignDrafts(): Promise<any> {
         return await this.mailService.getAllCampaignDrafts();
@@ -73,45 +64,15 @@ export class CampaignService {
     })
     async sendMarketingCampaignVerifyAccount() {
         console.log("Cronjob sendMarketingCampaignVerifyAccount triggered...");
+        const segmentId = await this.getSegmentIdByName(Segment.SURVEY_NOT_FINISHED);
 
-        // Get all users where we can send a proposition
-        const matchs = await this.matchService.findAllProposed();
-        const filteredStatus = [""]
-        const filteredMatchs = [];
-
-        // Update their metadatas
-        for (let match of matchs) {
-            const userAContactId = match.userCompatibility.userA.contactId
-            const userBContactId = match.userCompatibility.userB.contactId
-
-            const forbiddenLogs = match.matchLogs.filter(ml => ml.status != "proposed");
-            if (forbiddenLogs.length == 0) {                
-                const userAHash = match.userCompatibility.hashUserA;
-                const userBHash = match.userCompatibility.hashUserB;
-
-                await this.mailService.updateContactMetadata(userAContactId, ContactProperties.HAS_PROPOSED_MATCH, true);
-                await this.mailService.updateContactMetadata(userAContactId, ContactProperties.PROPOSED_MATCH_HASH, userAHash);
-                await this.mailService.updateContactMetadata(userBContactId, ContactProperties.HAS_PROPOSED_MATCH, true);
-                await this.mailService.updateContactMetadata(userBContactId, ContactProperties.PROPOSED_MATCH_HASH, userBHash);
-
-                filteredMatchs.push(match);
-            } else {
-                console.warn("Match proposition " + match.id + " discarded ! THIS SHOULD NOT OCCURS");
-                console.warn("WILL RESET HAS_PROPOSED_MATCH (they won't be triggered by the campaign) to false for contactsIds=" + userAContactId + ", " +  userBContactId + " ! ");
-                await this.mailService.updateContactMetadata(userAContactId, ContactProperties.HAS_PROPOSED_MATCH, false);
-                await this.mailService.updateContactMetadata(userBContactId, ContactProperties.HAS_PROPOSED_MATCH, false);
-            }
-        }
-
-        // Create the campaign
-        const segmentId = await this.getSegmentIdByName(Segment.MATCH_FOUND);
         const draft = new CreateCampaignDraft();
-        draft.campaignName = "Match found";
-        draft.campaignTitle = `${process.env.ENV} | Match found (${new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')})`;
-        draft.campaignSubject = "Les recherches de Sara de cette semaine";
-        draft.mailSubject = "Les recherches de Sara de cette semaine";
+        draft.campaignName = "Account not verified";
+        draft.campaignTitle = `Account not verified (${new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')})`;
+        draft.campaignSubject = "Verify your account";
+        draft.mailSubject = "Verify your account";
         draft.segmentId = segmentId;
-        draft.templateId = CampaignTemplate.ACCOUNT_VERIFICATION_TEMPLATE;
+        draft.templateId = CampaignTemplate.QUESTIONAIRE_PAS_FINI;
 
         await this.generateCampaign(draft, 30);
     }
