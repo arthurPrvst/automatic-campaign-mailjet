@@ -54,7 +54,7 @@ Add folder `backend/mailer` in your `backend/src/shared`. </br>
 Don't forget to add `MailerModule` in the imports of the `app.module`. </br>
 
 ### Step 8 - Contact creation on sign up
-When yourr userr sign up, you should create a contact on mailjet side.
+When your user sign up, you should create a contact on mailjet side.
 
 To do so, in file `backend/src/api/auth.controller.ts` add:
 
@@ -104,7 +104,7 @@ Side note: if you backend is meant to be scaled (in an AWS ElasticBeanStack envi
 
 ### Bonus
 
-To avoid any issuee being catetgorized as "SPAM" you should configure the SPF and DKIM configuration for your sending mail address and your domain.
+To avoid any issue being categorized as "SPAM" you should configure the SPF and DKIM configuration for your sending mail address and your domain.
 To do so, go in your Mailjet profil > "Preferences" > "Domains" > "DKIM/SPF authentication". See a complete documention [here](https://documentation.mailjet.com/hc/fr/articles/360043050113-How-to-setup-DomainKeys-DKIM-and-SPF-in-my-DNS-records-).
 
 That's it ! :rocket:

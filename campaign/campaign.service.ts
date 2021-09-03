@@ -57,7 +57,7 @@ export class CampaignService {
         await this.mailService.scheduleCampaign(campaignDraftID, sendSchedule);
     }
 
-    // Chaque friday at 6pm05
+    // Every friday at 6pm05
     @Cron('0 5 18 * * 5', {
         name: 'sendMarketingCampaignVerifyAccount',
         timeZone: 'Europe/Paris',
